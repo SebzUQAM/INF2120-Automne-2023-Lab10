@@ -1,6 +1,8 @@
 package Echec;
 
 
+import java.util.ArrayList;
+
 /**
  *
  * Classe d'objets repr�sentant un arbre binaire de recherche.
@@ -118,7 +120,7 @@ public class ArbreBinaire< Clef extends Comparable< Clef > > {
         Noeud< Clef > precedant = null;
         Noeud< Clef > courant = _racine;
         int direction;
-
+        System.out.println(clef);
         do {
             direction = null != courant
                     ? clef.compareTo( courant._clef )
@@ -239,6 +241,7 @@ public class ArbreBinaire< Clef extends Comparable< Clef > > {
         } else {
             // donc : l'arbre n'est pas vide, trouver ou inserer le noeud.
             Pair< Noeud< Clef >, Noeud< Clef > > resultat = rechercheNoeud( clef );
+            System.out.println(resultat);
 
             if( null == resultat.deuxieme ) {
                 // donc : la clef n'est pas presente dans l'arbre.
@@ -268,6 +271,38 @@ public class ArbreBinaire< Clef extends Comparable< Clef > > {
             // donc : la clef existe dans l'arbre, supprimer le noeud qui la contient.
             supprimerNoeud( resultat.premiere, resultat.deuxieme );
         }
+    }
+
+    public int chercherHauteur(Clef clef){
+        return chercherHauteur(clef, _racine, 0);
+    }
+
+    private int chercherHauteur(Clef clef, Noeud<Clef> courant, int hauteur){
+        if(courant == null){
+            hauteur = -1;
+        }else {
+            int direction = clef.compareTo(courant._clef);
+            if(direction < 0){
+                hauteur = chercherHauteur(clef, courant._gauche, hauteur + 1);
+            }else if(direction > 0){
+                hauteur = chercherHauteur(clef, courant._droite, hauteur + 1);
+            }
+        }
+        return hauteur;
+    }
+
+    public ArrayList<Clef> trier(){
+        return trier(_racine, new ArrayList<>());
+    }
+
+    private ArrayList<Clef> trier(Noeud<Clef> courant, ArrayList<Clef> list){
+        if(courant == null){
+        }else{
+            trier(courant._gauche, list);
+            list.add(courant._clef);
+            trier(courant._droite, list);
+        }
+        return list;
     }
 
     /**
