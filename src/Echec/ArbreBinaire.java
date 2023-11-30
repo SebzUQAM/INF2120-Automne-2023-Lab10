@@ -120,11 +120,11 @@ public class ArbreBinaire< Clef extends Comparable< Clef > > {
         Noeud< Clef > precedant = null;
         Noeud< Clef > courant = _racine;
         int direction;
-        System.out.println(clef);
         do {
             direction = null != courant
                     ? clef.compareTo( courant._clef )
                     : 0;
+
             // invariant : nous n'avons pas encore trouver le noeud contenant la clef.
             if( direction < 0 ) {
                 precedant = courant;
@@ -241,7 +241,6 @@ public class ArbreBinaire< Clef extends Comparable< Clef > > {
         } else {
             // donc : l'arbre n'est pas vide, trouver ou inserer le noeud.
             Pair< Noeud< Clef >, Noeud< Clef > > resultat = rechercheNoeud( clef );
-            System.out.println(resultat);
 
             if( null == resultat.deuxieme ) {
                 // donc : la clef n'est pas presente dans l'arbre.
@@ -274,32 +273,41 @@ public class ArbreBinaire< Clef extends Comparable< Clef > > {
     }
 
     public int chercherHauteur(Clef clef){
+        // initialisation de la recherche de hauteur
         return chercherHauteur(clef, _racine, 0);
     }
 
     private int chercherHauteur(Clef clef, Noeud<Clef> courant, int hauteur){
         if(courant == null){
+            // si le courant est null c'est que la clef n'est pas dans l'arbre
             hauteur = -1;
         }else {
+            // trouver la direction à prendre : <0 si clef < courant._clef
             int direction = clef.compareTo(courant._clef);
             if(direction < 0){
+                // refaire la même recherche, mais avec l'élément de gauche en ajoutant 1 à la hauteur
                 hauteur = chercherHauteur(clef, courant._gauche, hauteur + 1);
             }else if(direction > 0){
+                // refaire la même recherche, mais avec l'élément de droite en ajoutant 1 à la hauteur
                 hauteur = chercherHauteur(clef, courant._droite, hauteur + 1);
             }
+            // si direction == 0, on a trouvé la clef et on ne modifie pas la hauteur
         }
         return hauteur;
     }
 
     public ArrayList<Clef> trier(){
+        // initialisation du tri
         return trier(_racine, new ArrayList<>());
     }
 
     private ArrayList<Clef> trier(Noeud<Clef> courant, ArrayList<Clef> list){
-        if(courant == null){
-        }else{
+        if(courant != null){
+            //J'ajoute les éléments à gauche avant l'élément courant
             trier(courant._gauche, list);
+            //J'ajoute l'élément courant
             list.add(courant._clef);
+            //J'ajoute les éléments à droite après avoir ajouté l'élément courant
             trier(courant._droite, list);
         }
         return list;

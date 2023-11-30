@@ -8,8 +8,13 @@ public class Main {
             ab.inserer(integers[i]);
         }
 
-        System.out.println( ab.chercherHauteur(integers[1]) );
-        System.out.println(ab.contient(10000));
+        System.out.println( integers[0] );
+        int index = 5;
+        System.out.println( integers[index] );
+        System.out.println( ab.chercherHauteur(integers[index]) );
+        System.out.println(ab);
+
+        System.out.println(ab.trier());
     }
 
     private static Integer[] creerTableInt(int length){
